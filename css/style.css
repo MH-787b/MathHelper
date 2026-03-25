@@ -873,7 +873,242 @@ h4 { font-size: var(--text-lg); }
   color: var(--color-text);
 }
 
-/* --- Responsive --- */
+/* --- Mobile-First Base (phones < 640px) --- */
+
+/* Prevent zoom on input focus (iOS) */
+@supports (-webkit-touch-callout: none) {
+  .input-large {
+    font-size: 16px;
+  }
+}
+
+/* Safe area for notched phones */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .app-header {
+    padding-left: max(var(--space-3), env(safe-area-inset-left));
+    padding-right: max(var(--space-3), env(safe-area-inset-right));
+  }
+}
+
+/* Small phones (up to 374px - iPhone SE, older devices) */
+@media (max-width: 374px) {
+  :root {
+    --text-5xl: 2rem;
+    --text-6xl: 2.5rem;
+    --text-4xl: 1.75rem;
+  }
+
+  #app {
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .app-header {
+    padding: var(--space-3) var(--space-3);
+  }
+
+  .home-hero h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .home-hero {
+    margin-bottom: var(--space-6);
+  }
+
+  .card {
+    padding: var(--space-4);
+  }
+
+  .game-card {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .question-display {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-6);
+  }
+
+  .input-large {
+    font-size: var(--text-2xl);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .answer-input-wrap {
+    width: 160px;
+  }
+
+  .game-hud {
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .hud-value {
+    font-size: var(--text-xl);
+  }
+
+  .btn-large {
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-base);
+    min-height: 48px;
+  }
+
+  .table-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-1);
+  }
+
+  .table-btn {
+    padding: var(--space-2);
+    font-size: var(--text-base);
+    min-height: 42px;
+  }
+
+  .difficulty-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .results-score {
+    font-size: var(--text-4xl);
+  }
+
+  .results-card {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .results-stats {
+    gap: var(--space-2);
+  }
+
+  .results-actions {
+    flex-direction: column;
+  }
+
+  .results-actions .btn {
+    width: 100%;
+  }
+
+  .countdown-number {
+    font-size: 5rem;
+  }
+
+  .records-tabs {
+    gap: 0;
+  }
+
+  .records-tab {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+  }
+}
+
+/* Standard phones (375px - 639px) */
+@media (min-width: 375px) and (max-width: 639px) {
+  #app {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .home-hero h1 {
+    font-size: var(--text-3xl);
+  }
+
+  .home-hero {
+    margin-bottom: var(--space-6);
+  }
+
+  .question-display {
+    font-size: var(--text-5xl);
+    margin-bottom: var(--space-6);
+  }
+
+  .game-card {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .input-large {
+    font-size: var(--text-3xl);
+  }
+
+  .answer-input-wrap {
+    width: 180px;
+  }
+
+  .countdown-number {
+    font-size: 6rem;
+  }
+
+  .results-actions {
+    flex-direction: column;
+  }
+
+  .results-actions .btn {
+    width: 100%;
+  }
+
+  .setup-actions {
+    margin-top: var(--space-6);
+  }
+}
+
+/* Touch device enhancements */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets */
+  .btn {
+    min-height: 48px;
+  }
+
+  .table-btn {
+    min-height: 50px;
+  }
+
+  .difficulty-btn {
+    min-height: 50px;
+  }
+
+  .nav-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Remove hover effects that cause sticky states on touch */
+  .card-interactive:hover {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Active state instead for touch feedback */
+  .card-interactive:active {
+    transform: scale(0.98);
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .table-btn:active,
+  .difficulty-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Prevent text selection during gameplay taps */
+  .game-card,
+  .game-hud {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Disable pull-to-refresh during gameplay */
+  .game-container {
+    overscroll-behavior: contain;
+    touch-action: manipulation;
+  }
+}
+
+/* --- Tablet (640px+) --- */
 @media (min-width: 640px) {
   #app {
     padding: var(--space-10) var(--space-6);
@@ -890,8 +1125,17 @@ h4 { font-size: var(--text-lg); }
   .question-display {
     font-size: var(--text-6xl);
   }
+
+  .answer-input-wrap {
+    width: 220px;
+  }
+
+  .results-actions {
+    flex-direction: row;
+  }
 }
 
+/* --- Desktop (1024px+) --- */
 @media (min-width: 1024px) {
   .app-header {
     padding: var(--space-4) var(--space-10);
@@ -899,5 +1143,77 @@ h4 { font-size: var(--text-lg); }
 
   #app {
     padding: var(--space-12) var(--space-8);
+  }
+}
+
+/* --- Landscape phone (short + wide) --- */
+@media (max-height: 500px) and (orientation: landscape) {
+  .app-header {
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .logo {
+    font-size: var(--text-base);
+  }
+
+  #app {
+    padding: var(--space-3) var(--space-4);
+    min-height: auto;
+  }
+
+  .home-hero {
+    margin-bottom: var(--space-4);
+  }
+
+  .home-hero h1 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-1);
+  }
+
+  .mode-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+  }
+
+  .card {
+    padding: var(--space-3);
+  }
+
+  .game-card {
+    padding: var(--space-4) var(--space-4);
+  }
+
+  .game-hud {
+    margin-bottom: var(--space-3);
+  }
+
+  .question-display {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .answer-form {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .countdown-overlay {
+    align-items: center;
+  }
+
+  .countdown-number {
+    font-size: 4rem;
+  }
+
+  .results-card {
+    padding: var(--space-4);
+  }
+
+  .results-score {
+    font-size: var(--text-4xl);
+  }
+
+  .setup-header {
+    margin-bottom: var(--space-4);
   }
 }

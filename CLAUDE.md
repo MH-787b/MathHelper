@@ -39,7 +39,15 @@ js/records.js       - localStorage CRUD for personal records
 - **Accents**: Each mode has its own color (see table above)
 - **Cards**: White bg, 1px border, 4px left-accent, subtle shadow
 - **No gradients** - flat design with solid colors
-- **Responsive**: Mobile-first, breakpoints at 640px and 1024px
+- **Responsive**: Full mobile support with 5 breakpoint tiers:
+  - Small phones (<375px): Compact layout, reduced font sizes, stacked buttons
+  - Standard phones (375-639px): Optimised touch targets, single-column mode grid
+  - Tablet (640px+): 2-column mode grid, wider inputs, 6-column table selector
+  - Desktop (1024px+): Wider padding, max-width containers
+  - Landscape phone (<500px height): Compressed vertical layout, horizontal answer form
+- **Touch optimised**: Larger hit targets (48px+), `:active` states instead of `:hover`, disabled pull-to-refresh during gameplay, `touch-action: manipulation`
+- **Notch/safe-area support**: `env(safe-area-inset-*)` padding for modern phones
+- **iOS zoom prevention**: Input font sizing to prevent auto-zoom on focus
 
 ## Records Storage
 localStorage key: `mathshelp_records`. Contains:
