@@ -861,6 +861,161 @@ h4 { font-size: var(--text-lg); }
   50% { transform: scale(1.2); }
 }
 
+/* --- Question Slide In --- */
+.question-enter {
+  animation: questionEnter 0.25s ease forwards;
+}
+
+@keyframes questionEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --- Score Pop --- */
+.score-pop {
+  animation: scorePop 0.3s ease;
+}
+
+@keyframes scorePop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* --- Wrong Answer Shake --- */
+.shake {
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* --- Staggered Card Entrance (home) --- */
+.mode-card {
+  opacity: 0;
+  animation: cardStagger 0.35s ease forwards;
+}
+
+.mode-card:nth-child(1) { animation-delay: 0.05s; }
+.mode-card:nth-child(2) { animation-delay: 0.1s; }
+.mode-card:nth-child(3) { animation-delay: 0.15s; }
+.mode-card:nth-child(4) { animation-delay: 0.2s; }
+.mode-card:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes cardStagger {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Life Lost Pop --- */
+.life-lost {
+  animation: lifeLost 0.4s ease;
+}
+
+@keyframes lifeLost {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 0.2; }
+}
+
+/* --- Results Score Count Up --- */
+.score-count-up {
+  animation: scoreReveal 0.6s ease forwards;
+}
+
+@keyframes scoreReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* --- Stat Item Stagger (results) --- */
+.stat-item {
+  opacity: 0;
+  animation: statReveal 0.3s ease forwards;
+}
+
+.stat-item:nth-child(1) { animation-delay: 0.3s; }
+.stat-item:nth-child(2) { animation-delay: 0.4s; }
+.stat-item:nth-child(3) { animation-delay: 0.5s; }
+
+@keyframes statReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Button Hover Lift --- */
+.btn-primary:not(:active) {
+  transition: all var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+/* --- Timer Pulse When Low --- */
+.timer-critical {
+  animation: timerPulse 0.5s ease infinite;
+  color: var(--color-incorrect);
+}
+
+@keyframes timerPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* --- Record Row Entrance (records page) --- */
+.record-row {
+  opacity: 0;
+  animation: recordSlide 0.3s ease forwards;
+}
+
+.record-row:nth-child(1) { animation-delay: 0.05s; }
+.record-row:nth-child(2) { animation-delay: 0.1s; }
+.record-row:nth-child(3) { animation-delay: 0.15s; }
+.record-row:nth-child(4) { animation-delay: 0.2s; }
+.record-row:nth-child(5) { animation-delay: 0.25s; }
+.record-row:nth-child(6) { animation-delay: 0.3s; }
+
+@keyframes recordSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* --- No-JS Message --- */
 .noscript-msg {
   text-align: center;

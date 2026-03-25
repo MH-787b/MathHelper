@@ -383,6 +383,10 @@ export function showQuestion(question, state) {
   const display = document.getElementById('question-display');
   if (display) {
     display.textContent = `${question.a} × ${question.b} = ?`;
+    // Slide-in animation
+    display.classList.remove('question-enter');
+    void display.offsetWidth;
+    display.classList.add('question-enter');
   }
   const input = document.getElementById('answer-input');
   if (input) {
@@ -394,10 +398,13 @@ export function showQuestion(question, state) {
 export function showAnswerFeedback(correct) {
   const card = document.getElementById('game-card');
   if (!card) return;
-  card.classList.remove('correct-flash', 'incorrect-flash');
+  card.classList.remove('correct-flash', 'incorrect-flash', 'shake');
   // Force reflow
   void card.offsetWidth;
   card.classList.add(correct ? 'correct-flash' : 'incorrect-flash');
+  if (!correct) {
+    card.classList.add('shake');
+  }
 }
 
 export function updateGameHUD(state) {
@@ -410,17 +417,32 @@ export function updateGameHUD(state) {
   if (timeEl) {
     if (state.mode === 'speed') {
       timeEl.textContent = formatTime(state.timeRemaining);
+      timeEl.classList.toggle('timer-critical', state.timeRemaining <= 10);
     } else if (state.mode === 'marathon') {
       timeEl.textContent = formatTime(state.elapsed);
     }
   }
 
   if (scoreEl) {
-    scoreEl.textContent = state.mode === 'streak' ? state.bestStreak : state.score;
+    const newScore = state.mode === 'streak' ? state.bestStreak : state.score;
+    if (scoreEl.textContent !== String(newScore)) {
+      scoreEl.textContent = newScore;
+      scoreEl.classList.remove('score-pop');
+      void scoreEl.offsetWidth;
+      scoreEl.classList.add('score-pop');
+    }
   }
 
   if (streakEl) {
-    streakEl.textContent = state.streak;
+    const newStreak = String(state.streak);
+    if (streakEl.textContent !== newStreak) {
+      streakEl.textContent = newStreak;
+      if (state.streak > 0) {
+        streakEl.classList.remove('score-pop');
+        void streakEl.offsetWidth;
+        streakEl.classList.add('score-pop');
+      }
+    }
     // Milestone animation
     if ([10, 25, 50, 75, 100].includes(state.streak)) {
       streakEl.classList.remove('streak-milestone');
@@ -453,7 +475,10 @@ export function updateGameHUD(state) {
     for (let i = 1; i <= 3; i++) {
       const lifeEl = document.getElementById(`life-${i}`);
       if (lifeEl) {
-        lifeEl.classList.toggle('lost', i > state.lives);
+        const shouldBeLost = i > state.lives;
+        if (shouldBeLost && !lifeEl.classList.contains('lost')) {
+          lifeEl.classList.add('lost', 'life-lost');
+        }
       }
     }
   }
@@ -501,7 +526,7 @@ export function renderResults(state, recordCheck, onPlayAgain, onChangeMode) {
         <div class="results-mode">${m.name}</div>
         <h2 class="results-title">Challenge Complete!</h2>
         ${recordHtml}
-        <div class="results-score">${scoreDisplay}</div>
+        <div class="results-score score-count-up">${scoreDisplay}</div>
         <div class="results-score-label">${scoreLabel}</div>
         <div class="results-stats">
           <div class="stat-item">

@@ -24,6 +24,22 @@ js/records.js       - localStorage CRUD for personal records
 - **GameEngine** communicates via callbacks (`onTick`, `onQuestion`, `onResult`, `onEnd`) and never touches the DOM
 - **Timers** use `requestAnimationFrame` + `performance.now()` for accuracy
 - **During gameplay**: only targeted DOM nodes update (no full re-renders, preserves input focus)
+- **Router guard**: `state.inCountdown` flag prevents hashchange from interrupting game start sequence
+
+## Animations
+- **View transitions**: Fade-up on every view change
+- **Home cards**: Staggered entrance (each card slides up with increasing delay)
+- **Questions**: Slide-in + scale on each new question
+- **Correct answer**: Green flash on game card
+- **Wrong answer**: Red flash + horizontal shake on game card
+- **Score/streak**: Pop animation when value changes
+- **Timer**: Pulsing red text when <=10 seconds remain (Speed Round)
+- **Lives**: Expand-and-fade animation when a life is lost (Mix Master)
+- **Countdown**: Scale-up pulse for 3-2-1-GO overlay
+- **Results**: Score reveals with scale-up, stat items stagger in
+- **New record badge**: Pop-in with overshoot
+- **Record rows**: Slide-in from left with stagger
+- **Buttons**: Subtle lift on hover
 
 ## Game Modes
 | Mode | Color | Key Mechanic |

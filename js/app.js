@@ -11,6 +11,7 @@ import * as UI from './ui.js';
 const state = {
   currentView: 'home',
   activeGame: null,
+  inCountdown: false,
   lastMode: null,
   lastConfig: null,
   lastResult: null,
@@ -30,13 +31,19 @@ function navigate(hash) {
 }
 
 function onHashChange() {
-  // Destroy any running game if we navigate away
+  const { path, param } = parseHash();
+
+  // Don't interfere if we're in countdown or actively playing
+  if (path === 'playing' && (state.inCountdown || state.activeGame)) {
+    return;
+  }
+
+  // Destroy any running game if we navigate away from playing
   if (state.activeGame) {
     state.activeGame.destroy();
     state.activeGame = null;
   }
-
-  const { path, param } = parseHash();
+  state.inCountdown = false;
 
   switch (path) {
     case '':
@@ -54,10 +61,8 @@ function onHashChange() {
       break;
 
     case 'playing':
-      // Shouldn't navigate here directly - redirect to setup
-      if (MODES[param] && state.activeGame) {
-        // Already playing, do nothing
-      } else if (MODES[param]) {
+      // No active game or countdown - redirect to setup
+      if (MODES[param]) {
         navigate(`#/play/${param}`);
       } else {
         navigate('#/');
@@ -93,13 +98,18 @@ function onHashChange() {
 function startGame(mode, config) {
   state.lastMode = mode;
   state.lastConfig = config;
+  state.inCountdown = true;
 
-  // Render the playing view first
+  // Set hash without triggering a redirect
   window.location.hash = `#/playing/${mode}`;
+
+  // Render the playing view
   UI.renderPlaying(mode);
 
   // Show countdown then start
   UI.showCountdown(() => {
+    state.inCountdown = false;
+
     state.activeGame = new GameEngine({
       mode,
       config,
